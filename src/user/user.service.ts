@@ -1,13 +1,25 @@
 import { Injectable } from '@nestjs/common';
+import { User } from './user.entity';
+import { DataSource } from 'typeorm';
 
 @Injectable()
 export class UserService {
+  private userRepository;
 
-    find(): string {
-        return 'Return user details';
-    }
+  constructor(private dataSource: DataSource) {
+    this.userRepository = this.dataSource.getRepository(User);
+  }
 
-    findAll(): string {
-        return 'return all users details  !';
-    }
+  find(): string {
+    return 'Return user details';
+  }
+
+  findAll(): string {
+    return 'return all users details  !';
+  }
+
+  async create(user: Partial<User>): Promise<User> {
+    const newuser = this.userRepository.create(user);
+    return this.userRepository.save(newuser);
+  }
 }

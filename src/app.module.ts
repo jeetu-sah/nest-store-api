@@ -3,13 +3,13 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserController } from './user/user.controller';
 import { UserService } from './user/user.service';
-import { UserModule } from './user/user.module';
 import { User } from './user/user.entity';
-
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { DataSource } from 'typeorm';
+
 
 @Module({
-  imports: [UserModule,
+  imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
@@ -24,5 +24,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
   controllers: [AppController, UserController],
   providers: [AppService, UserService],
 })
-
-export class AppModule {}
+export class AppModule {
+  constructor(private dataSource: DataSource) {}
+}
