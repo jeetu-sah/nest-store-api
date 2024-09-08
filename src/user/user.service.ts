@@ -10,8 +10,8 @@ export class UserService {
     this.userRepository = this.dataSource.getRepository(User);
   }
 
-  find(): string {
-    return 'Return user details';
+  find(): Promise<User[]> {
+    return this.userRepository.find();
   }
 
   findAll(): string {

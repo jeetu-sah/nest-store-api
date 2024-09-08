@@ -1,6 +1,5 @@
 import { Controller, Get, Post, Req, Res, HttpStatus } from '@nestjs/common';
 import { Request, Response } from 'express';
-
 import { UserService } from './user.service';
 
 @Controller('user')
@@ -8,7 +7,7 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
-  find(): string {
+  find() {
     return this.userService.find();
   }
 
