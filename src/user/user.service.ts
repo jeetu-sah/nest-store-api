@@ -22,4 +22,15 @@ export class UserService {
     const newuser = this.userRepository.create(user);
     return this.userRepository.save(newuser);
   }
+
+  async delete(id: number) {
+    // return "test in services" 
+    return this.userRepository.delete(id);
+  }
+
+  async details(id: number) {
+    // return "test in services" 
+    return this.userRepository.findOneBy({ id });
+  }
+
 }

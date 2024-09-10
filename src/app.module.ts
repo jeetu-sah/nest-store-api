@@ -6,6 +6,9 @@ import { UserService } from './user/user.service';
 import { User } from './user/user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
+import { AdminController } from './admin/admin.controller';
+import { Admin } from './admin/admin.entity';
+import { AdminService } from './admin/admin.service';
 
 
 @Module({
@@ -17,12 +20,12 @@ import { DataSource } from 'typeorm';
       username: 'root',
       password: '',
       database: 'nest_database',
-      entities: [User],
+      entities: [User,Admin],
       synchronize: true,
     })
   ],
-  controllers: [AppController, UserController],
-  providers: [AppService, UserService],
+  controllers: [AppController, UserController, AdminController],
+  providers: [AppService, UserService, AdminService],
 })
 export class AppModule {
   constructor(private dataSource: DataSource) {}
