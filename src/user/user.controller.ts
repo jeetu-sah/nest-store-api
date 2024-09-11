@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Req, Res, HttpStatus, Delete, Param } from '@nestjs/common';
+import { Controller, Get, Post, Req, Res, HttpStatus, Delete, Param, Put, Patch } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { UserService } from './user.service';
 
@@ -42,6 +42,24 @@ export class UserController {
         res.status(HttpStatus.OK).json({data: null, msg: 'no record found'});
 
       }
+  }
+
+  @Patch('/:id')
+  async updateUser (@Param('id') id:number, @Req() request: Request, @Res() res: Response) {
+    // return 'test';
+    const user = await this.userService.details(id);  
+    if(user) {
+      user['firstName'] = request.body.first_name;
+      user['lastName'] = request.body.lastName;
+      user['isActive'] = request.body.status;
+     
+      //res.json(user)
+      const updatedata = await this.userService.update(user);
+      res.status(HttpStatus.OK).json(updatedata);
+    }else{
+      res.status(HttpStatus.OK).json({data: null, msg: 'User  not exits'});
+    }
+    // return 'hello'
   }
 
 }
