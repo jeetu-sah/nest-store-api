@@ -32,5 +32,9 @@ export class UserService {
     // return "test in services" 
     return this.userRepository.findOneBy({ id });
   }
+  async update(user) {
+    // return "test in services" 
+    return this.userRepository.save(user);
+  }
 
 }
