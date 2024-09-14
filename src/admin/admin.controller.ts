@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Req, Res, HttpStatus, Delete, Param } from '@nestjs/common';
+import { Controller, Get, Post, Req, Res, HttpStatus, Delete, Param, Patch } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { AdminService } from './admin.service';
 
@@ -39,6 +39,20 @@ export class AdminController {
         res.status(HttpStatus.OK).json({data: null, msg: 'no record found'});
 
       }
+  }
+  @Patch('/:id')
+  async updateAdmin (@Param('id') id:number, @Req() request: Request, @Res() res: Response) {
+    // return 'test';
+    const admin = await this.adminService.details(id);  
+    if(admin) {
+      admin['firstName'] = request.body.firstName;
+      admin['lastName'] = request.body.lastName;
+      admin['isActive'] = request.body.isActive; 
+      const updatedata = await this.adminService.update(admin);
+      res.status(HttpStatus.OK).json(updatedata);
+    }else{
+      res.status(HttpStatus.OK).json({data: null, msg: 'admin  not exits'});
+    }
   }
 
 }

@@ -15,6 +15,12 @@ export class User {
   @Column()
   email: string;
 
+  @Column({type: 'bigint'})
+  mobile: number;
+
+  @Column()
+  password: string;
+
   @Column()
   maritalStatus: string;
 

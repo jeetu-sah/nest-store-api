@@ -32,9 +32,21 @@ export class UserService {
     // return "test in services" 
     return this.userRepository.findOneBy({ id });
   }
+
+  async findUserByFieldName(fieldObject: object) {
+    // return "test in services" 
+    return this.userRepository.findOneBy(fieldObject);
+  }
+
   async update(user) {
     // return "test in services" 
     return this.userRepository.save(user);
+  } 
+
+
+  async registration(user: Partial<User>): Promise<User> {
+    const newuser = this.userRepository.create(user);
+    return this.userRepository.save(newuser);
   }
 
 }
