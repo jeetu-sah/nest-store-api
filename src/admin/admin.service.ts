@@ -32,5 +32,8 @@ export class AdminService {
     // return "test in services" 
     return this.adminRepository.findOneBy({ id });
   }
-
+  async update(admin) {
+    // return "test in services" 
+    return this.adminRepository.save(admin);
+  }
 }

@@ -4,10 +4,10 @@ import { UserService } from './user.service';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) { }
 
   @Get('/')
-  find() { 
+  find() {
     return this.userService.find();
   }
 
@@ -20,46 +20,78 @@ export class UserController {
     res.status(HttpStatus.OK).json(userResult);
   }
 
-  @Delete('/:id') 
-  async deleteUser (@Param('id') id: number, @Res() res: Response) {
+  @Delete('/:id')
+  async deleteUser(@Param('id') id: number, @Res() res: Response) {
     const detailsResponse = await this.userService.details(id);
-    if(detailsResponse) {
-        const deleteResponse = await this.userService.delete(id);
-        res.status(HttpStatus.OK).json(deleteResponse);
-      } else{
-        res.status(HttpStatus.OK).json({data: null, msg: 'User Does not exists'});
+    if (detailsResponse) {
+      const deleteResponse = await this.userService.delete(id);
+      res.status(HttpStatus.OK).json(deleteResponse);
+    } else {
+      res.status(HttpStatus.OK).json({ data: null, msg: 'User Does not exists' });
 
-      }
+    }
   }
 
 
-  @Get('/:id') 
-  async details (@Param('id') id: number, @Res() res: Response) {
-      const detailsResponse = await this.userService.details(id);
-      if(detailsResponse) {
-        res.status(HttpStatus.OK).json(detailsResponse);
-      } else{
-        res.status(HttpStatus.OK).json({data: null, msg: 'no record found'});
+  @Get('/:id')
+  async details(@Param('id') id: number, @Res() res: Response) {
+    const detailsResponse = await this.userService.details(id);
+    if (detailsResponse) {
+      res.status(HttpStatus.OK).json(detailsResponse);
+    } else {
+      res.status(HttpStatus.OK).json({ data: null, msg: 'no record found' });
 
-      }
+    }
   }
 
   @Patch('/:id')
-  async updateUser (@Param('id') id:number, @Req() request: Request, @Res() res: Response) {
+  async updateUser(@Param('id') id: number, @Req() request: Request, @Res() res: Response) {
     // return 'test';
-    const user = await this.userService.details(id);  
-    if(user) {
+    const user = await this.userService.details(id);
+    if (user) {
       user['firstName'] = request.body.first_name;
       user['lastName'] = request.body.lastName;
       user['isActive'] = request.body.status;
-     
-      //res.json(user)
       const updatedata = await this.userService.update(user);
       res.status(HttpStatus.OK).json(updatedata);
-    }else{
-      res.status(HttpStatus.OK).json({data: null, msg: 'User  not exits'});
+    } else {
+      res.status(HttpStatus.OK).json({ data: null, msg: 'User  not exits' });
     }
-    // return 'hello'
+  }
+
+  @Post('/registration')
+  async registration(@Req() request: Request, @Res() res: Response) {
+    const email = request.body.email;
+    const mobile = request.body.mobile;
+    const password = request.body.password;
+    //request.body -> for all form data
+    //request.body.first_name -> for single key data
+    const userEmail = await this.userService.findUserByFieldName({ 'email': email });
+    const userMobile = await this.userService.findUserByFieldName({ 'mobile': mobile });
+    const userPassword = await this.userService.findUserByFieldName({ 'password': password });
+
+    if (userEmail && userMobile && userPassword) {
+      res.status(HttpStatus.OK).json({ 'msg': 'This email , mobile number and Password is already already exists..' });
+    } else if (userEmail && userPassword) {
+      res.status(HttpStatus.OK).json({ "msg": 'this email and password is already exist please enter new email..' })
+    }
+    else if (userMobile && userPassword) {
+      res.status(HttpStatus.OK).json({ "msg": 'this number and password is already exist please enter new number..' })
+    }
+    else if (userMobile && userEmail) {
+      res.status(HttpStatus.OK).json({ "msg": 'this number and email is already exist please enter new number..' })
+    } else if (userPassword) {
+      res.status(HttpStatus.OK).json({ "msg": 'this password is already exist please enter new password..' })
+    }
+    else if (userEmail) {
+      res.status(HttpStatus.OK).json({ "msg": 'this mail is already exist please enter new mail..' })
+    }
+    else if (userMobile) {
+      res.status(HttpStatus.OK).json({ "msg": 'this number is already exist please enter new number..' })
+    }
+
+    const userResult = await this.userService.create(request.body);
+    res.status(HttpStatus.OK).json(userResult);
   }
 
 }
