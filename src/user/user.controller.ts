@@ -63,27 +63,13 @@ export class UserController {
   async registration(@Req() request: Request, @Res() res: Response) {
     const email = request.body.email;
     const mobile = request.body.mobile;
-    const password = request.body.password;
     //request.body -> for all form data
     //request.body.first_name -> for single key data
     const userEmail = await this.userService.findUserByFieldName({ 'email': email });
     const userMobile = await this.userService.findUserByFieldName({ 'mobile': mobile });
-    const userPassword = await this.userService.findUserByFieldName({ 'password': password });
 
-    if (userEmail && userMobile && userPassword) {
-      res.status(HttpStatus.OK).json({ 'msg': 'This email , mobile number and Password is already already exists..' });
-    } else if (userEmail && userPassword) {
-      res.status(HttpStatus.OK).json({ "msg": 'this email and password is already exist please enter new email..' })
-    }
-    else if (userMobile && userPassword) {
-      res.status(HttpStatus.OK).json({ "msg": 'this number and password is already exist please enter new number..' })
-    }
-    else if (userMobile && userEmail) {
-      res.status(HttpStatus.OK).json({ "msg": 'this number and email is already exist please enter new number..' })
-    } else if (userPassword) {
-      res.status(HttpStatus.OK).json({ "msg": 'this password is already exist please enter new password..' })
-    }
-    else if (userEmail) {
+
+    if (userEmail) {
       res.status(HttpStatus.OK).json({ "msg": 'this mail is already exist please enter new mail..' })
     }
     else if (userMobile) {
