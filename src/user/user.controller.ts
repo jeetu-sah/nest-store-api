@@ -94,4 +94,22 @@ export class UserController {
     res.status(HttpStatus.OK).json(userResult);
   }
 
+  @Post('/login')
+  async login(@Req() request: Request, @Res() res: Response) {
+
+    const loginemail = request.body.email;
+    const loginpassword = request.body.password;
+    const userExists = await this.userService.findUserByFieldName({ 'email': loginemail });
+    if (userExists) {
+      if (userExists.password === loginpassword) {
+        res.status(HttpStatus.OK).json({ 'msg': 'Login  successfully', 'data': userExists });
+      } else {
+        res.status(HttpStatus.OK).json({ 'msg': 'user password ddoes not matched!!!' });
+      }
+    }
+    else {
+      res.status(HttpStatus.OK).json({ 'msg': 'user does not exist' });
+    }
+  }
+
 }

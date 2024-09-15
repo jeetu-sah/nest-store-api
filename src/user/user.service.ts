@@ -48,5 +48,14 @@ export class UserService {
     const newuser = this.userRepository.create(user);
     return this.userRepository.save(newuser);
   }
+  async findUserByFieldName1(fieldObject: object) {
+    // return "test in services" 
+    return this.userRepository.findOneBy(fieldObject);
+  }
 
+
+  async loginDetails(email: string) {
+    // return "test in services" 
+    return this.userRepository.findOneBy({ email });
+  }
 }
