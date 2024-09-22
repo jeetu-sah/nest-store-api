@@ -1,10 +1,11 @@
 import { Controller, Get, Post, Req, Res, HttpStatus, Delete, Param, Put, Patch } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { UserService } from './user.service';
+import { UserotpService } from '../userotp/userotp.service';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) { }
+  constructor(private readonly userService: UserService, private readonly UserotpService: UserotpService) { }
 
   @Get('/')
   find() {
@@ -52,6 +53,8 @@ export class UserController {
       user['firstName'] = request.body.first_name;
       user['lastName'] = request.body.lastName;
       user['isActive'] = request.body.status;
+      user['email'] = request.body.email;
+      user['mobile'] = request.body.mobile;
       const updatedata = await this.userService.update(user);
       res.status(HttpStatus.OK).json(updatedata);
     } else {
@@ -85,19 +88,43 @@ export class UserController {
   @Post('/login')
   async login(@Req() request: Request, @Res() res: Response) {
 
-    const loginemail = request.body.email;
+    const loginWithOtp = request.body.loginWithOtp;
+    const otp = request.body.OTP;
+    const loginID = request.body.loginid;
     const loginpassword = request.body.password;
-    const userExists = await this.userService.findUserByFieldName({ 'email': loginemail });
+
+    let userExists;
+    if (loginID.includes("@")) {
+      userExists = await this.userService.findUserByFieldName({ 'email': loginID });
+    } else {
+      userExists = await this.userService.findUserByFieldName({ 'mobile': loginID });
+    }
+
     if (userExists) {
-      if (userExists.password === loginpassword) {
-        res.status(HttpStatus.OK).json({ 'msg': 'Login  successfully', 'data': userExists });
+
+      if (loginWithOtp === true) {
+        const userOtp = await this.UserotpService.findUserOtp(userExists.id);
+       
+        
+        if (userOtp[0].otp === otp && userOtp[0].isActive===true) {
+          res.status(HttpStatus.OK).json({ 'msg': 'Login  successfully', 'data': userOtp });
+        } else {
+          res.status(HttpStatus.OK).json({ 'msg': 'OTP does not matched!!!', data: null });
+        }
+
+
       } else {
-        res.status(HttpStatus.OK).json({ 'msg': 'user password ddoes not matched!!!' });
+        if (userExists.password === loginpassword) {
+          res.status(HttpStatus.OK).json({ 'msg': 'Login  successfully', 'data': userExists });
+        } else {
+          res.status(HttpStatus.OK).json({ 'msg': 'user password ddoes not matched!!!', data: null });
+        }
       }
     }
     else {
-      res.status(HttpStatus.OK).json({ 'msg': 'user does not exist' });
+      res.status(HttpStatus.OK).json({ 'msg': 'user does not exist', data: null });
     }
+
   }
 
   @Post('/forgetPassword')
@@ -105,6 +132,7 @@ export class UserController {
     const forgetPasswordEmail = request.body.email;
     const userExistPassword = await this.userService.findUserByFieldName({ 'email': forgetPasswordEmail });
     if (userExistPassword) {
+
       userExistPassword['password'] = request.body.password;
       const updatedPassword = await this.userService.updatePassword(userExistPassword);
       res.status(HttpStatus.OK).json({ 'msg': 'password Updated  successfully', 'data': updatedPassword });
