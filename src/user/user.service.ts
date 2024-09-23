@@ -52,7 +52,6 @@ export class UserService {
     return this.userRepository.findOneBy({ email });
   }
 
-<<<<<<< HEAD
 
   async updatePassword(userExistPassword) {
     // return "test in services" 
@@ -88,7 +87,6 @@ export class UserService {
   //   return this.userRepository.save(newuser);
   // }
 
-=======
   async checkUserMobileEmail(email: string, mobile: number): Promise<User[]> {
     return this.userRepository.find({
       where: [
@@ -101,7 +99,6 @@ export class UserService {
       ],
     });
   }
->>>>>>> ae515c4217fb3fed07a47f5aed9b748e13d8b66e
 }
 
 

@@ -16,11 +16,9 @@ import { UserotpService } from '../userotp/userotp.service';
 
 @Controller('user')
 export class UserController {
-<<<<<<< HEAD
-  constructor(private readonly userService: UserService, private readonly UserotpService: UserotpService) { }
-=======
-  constructor(private readonly userService: UserService) {}
->>>>>>> ae515c4217fb3fed07a47f5aed9b748e13d8b66e
+  constructor(
+    private readonly userService: UserService,
+    private readonly UserotpService: UserotpService) { }
 
   @Get('/')
   find() {
@@ -100,7 +98,6 @@ export class UserController {
       });
     }
   }
-<<<<<<< HEAD
 
 
   @Post('/login')
@@ -122,9 +119,9 @@ export class UserController {
 
       if (loginWithOtp === true) {
         const userOtp = await this.UserotpService.findUserOtp(userExists.id);
-       
-        
-        if (userOtp[0].otp === otp && userOtp[0].isActive===true) {
+
+
+        if (userOtp[0].otp === otp && userOtp[0].isActive === true) {
           res.status(HttpStatus.OK).json({ 'msg': 'Login  successfully', 'data': userOtp });
         } else {
           res.status(HttpStatus.OK).json({ 'msg': 'OTP does not matched!!!', data: null });
@@ -160,6 +157,4 @@ export class UserController {
     }
 
   }
-=======
->>>>>>> ae515c4217fb3fed07a47f5aed9b748e13d8b66e
 }
