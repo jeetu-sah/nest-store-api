@@ -46,7 +46,46 @@ export class UserService {
   async registration(user: Partial<User>): Promise<User> {
     const newuser = this.userRepository.create(user);
     return this.userRepository.save(newuser);
+  } 
+  async loginDetails(email: string) {
+    // return "test in services" 
+    return this.userRepository.findOneBy({ email });
   }
+
+
+  async updatePassword(userExistPassword) {
+    // return "test in services" 
+    return this.userRepository.save(userExistPassword);
+  } 
+
+
+
+  // async findUserByMultipleFieldName(fieldObject: object) {
+  //   // return "test in services" 
+  //   return this.userRepository.findOneBy(fieldObject);
+  // }
+
+
+  // async findUserByMultipleFields(email: string, mobile: number): Promise<any> {
+  //   const user = await this.userRepository.findOne(email);
+  //   // return this.userRepository.findOneBy(fields);
+  //   if (user && user.password === mobile) {
+  //     const { password, ...result } = user;
+  //     return result;
+  //   }
+  // }
+  
+  // async createMultiple(user: Partial<User>): Promise<User> {
+  //   const newUser = this.userRepository.create(user);
+  //   return this.userRepository.save(newUser);
+  // }
+
+
+
+  // async findUserByMultipleFields(user: Partial<User>): Promise<User> {
+  //   const newuser = this.userRepository.create(user);
+  //   return this.userRepository.save(newuser);
+  // }
 
   async checkUserMobileEmail(email: string, mobile: number): Promise<User[]> {
     return this.userRepository.find({
@@ -61,3 +100,6 @@ export class UserService {
     });
   }
 }
+
+
+
