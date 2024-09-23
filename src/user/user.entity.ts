@@ -48,7 +48,6 @@ export class User {
   @CreateDateColumn({ type: 'datetime' })
   deleted_at: Date;
 
-
   @Column({ default: true })
   isActive: boolean;
 }

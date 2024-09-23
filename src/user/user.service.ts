@@ -24,25 +24,24 @@ export class UserService {
   }
 
   async delete(id: number) {
-    // return "test in services" 
+    // return "test in services"
     return this.userRepository.delete(id);
   }
 
   async details(id: number) {
-    // return "test in services" 
+    // return "test in services"
     return this.userRepository.findOneBy({ id });
   }
 
   async findUserByFieldName(fieldObject: object) {
-    // return "test in services" 
+    // return "test in services"
     return this.userRepository.findOneBy(fieldObject);
   }
 
   async update(user) {
-    // return "test in services" 
+    // return "test in services"
     return this.userRepository.save(user);
-  } 
-
+  }
 
   async registration(user: Partial<User>): Promise<User> {
     const newuser = this.userRepository.create(user);
@@ -53,6 +52,7 @@ export class UserService {
     return this.userRepository.findOneBy({ email });
   }
 
+<<<<<<< HEAD
 
   async updatePassword(userExistPassword) {
     // return "test in services" 
@@ -88,6 +88,20 @@ export class UserService {
   //   return this.userRepository.save(newuser);
   // }
 
+=======
+  async checkUserMobileEmail(email: string, mobile: number): Promise<User[]> {
+    return this.userRepository.find({
+      where: [
+        {
+          email: email,
+        },
+        {
+          mobile: mobile,
+        },
+      ],
+    });
+  }
+>>>>>>> ae515c4217fb3fed07a47f5aed9b748e13d8b66e
 }
 
 
