@@ -9,6 +9,10 @@ import { DataSource } from 'typeorm';
 import { AdminController } from './admin/admin.controller';
 import { Admin } from './admin/admin.entity';
 import { AdminService } from './admin/admin.service';
+import { UserotpController } from './userotp/userotp.controller';
+import { UserotpService } from './userotp/userotp.service';
+import { UserotpModule } from './userotp/userotp.module';
+import { userOtp } from './userotp/userotp.entity';
 
 
 @Module({
@@ -20,12 +24,13 @@ import { AdminService } from './admin/admin.service';
       username: 'root',
       password: '',
       database: 'nest_database',
-      entities: [User,Admin],
+      entities: [User,Admin,userOtp],
       synchronize: true,
-    })
+    }),
+    UserotpModule
   ],
-  controllers: [AppController, UserController, AdminController],
-  providers: [AppService, UserService, AdminService],
+  controllers: [AppController, UserController, AdminController, UserotpController],
+  providers: [AppService, UserService, AdminService, UserotpService],
 })
 export class AppModule {
   constructor(private dataSource: DataSource) {}
