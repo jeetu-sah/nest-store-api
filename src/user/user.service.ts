@@ -90,9 +90,7 @@ export class UserService {
   async checkUserMobileEmail(email: string, mobile: number): Promise<User[]> {
     return this.userRepository.find({
       where: [
-        {
-          email: email,
-        },
+        { email: email },
         {
           mobile: mobile,
         },
