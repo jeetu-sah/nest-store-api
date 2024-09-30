@@ -21,8 +21,7 @@ export class UserotpService {
   
     return this.userotpRepository.save(newuser);
   }
-  async findUserOtpByFieldName(fieldObject: object) {
-    // return "test in services" 
+  async findUserOtpByFieldName(fieldObject: object) { 
     return this.userotpRepository.findOneBy(fieldObject);
   }
 
@@ -35,12 +34,9 @@ export class UserotpService {
         }
       ],
       order: {
-        created_at: 'DESC', 
+        created_at: 'DESC'
       }
     });
     
-
-    // console.log(userId)
-    // return this.userotpRepository.userOtps;
   }
 }

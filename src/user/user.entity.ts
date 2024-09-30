@@ -1,5 +1,4 @@
-
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, DeleteDateColumn } from 'typeorm';
 
 @Entity()
 export class User {
@@ -34,7 +33,7 @@ export class User {
   bloodGroup: string;
 
   @Column({ type: 'decimal', precision: 5, scale: 2 })
-  height: string;
+  height: number;
 
   @Column()
   higestQualification: string;
@@ -45,7 +44,7 @@ export class User {
   @CreateDateColumn({ type: 'datetime' })
   created_at: Date;
 
-  @CreateDateColumn({ type: 'datetime' })
+  @DeleteDateColumn()  
   deleted_at: Date;
 
   @Column({ default: true })
