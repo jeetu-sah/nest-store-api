@@ -9,12 +9,11 @@ export class UserotpController {
 
   @Get("")
   find() {
-    return 'abc'
+    return 'All OTPs are....'
   }
   @Post('/create')
   async create(@Req() request: Request, @Res() res: Response) {
     const loginid = request.body.user_id;
- 
     let userExists;
     if (loginid.includes("@")) {
       userExists = await this.UserService.findUserByFieldName({ 'email': loginid });

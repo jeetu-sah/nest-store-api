@@ -25,7 +25,7 @@ export class AdminService {
 
   async delete(id: number) {
     // return "test in services" 
-    return this.adminRepository.delete(id);
+    return this.adminRepository.softDelete(id);
   }
 
   async details(id: number) {
