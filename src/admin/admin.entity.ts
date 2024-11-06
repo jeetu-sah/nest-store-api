@@ -1,5 +1,5 @@
 
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, DeleteDateColumn, CreateDateColumn } from 'typeorm';
 
 @Entity()
 export class Admin {
@@ -14,4 +14,13 @@ export class Admin {
 
   @Column({ default: true })
   isActive: boolean;
+
+  @Column({ type: 'timestamp' })
+  updated_at: Date;
+
+  @CreateDateColumn({ type: 'datetime' })
+  created_at: Date;
+
+  @DeleteDateColumn()  
+  deleted_at: Date;
 }

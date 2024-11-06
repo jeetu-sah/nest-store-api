@@ -13,6 +13,14 @@ import { UserotpController } from './userotp/userotp.controller';
 import { UserotpService } from './userotp/userotp.service';
 import { UserotpModule } from './userotp/userotp.module';
 import { userOtp } from './userotp/userotp.entity';
+import { Product } from './product/product.entity';
+import { ProductController } from './product/product.controller';
+import { ProductService } from './product/product.service';
+import { ProductModule } from './product/product.module';
+import { CategoryController } from './category/category.controller';
+import { CategoryService } from './category/category.service';
+import { CategoryModule } from './category/category.module';
+import { Category } from './category/category.entity'; 
 
 
 @Module({
@@ -24,13 +32,15 @@ import { userOtp } from './userotp/userotp.entity';
       username: 'root',
       password: '',
       database: 'nest_database',
-      entities: [User,Admin,userOtp],
+      entities: [User,Admin,userOtp, Product, Category],
       synchronize: true,
     }),
-    UserotpModule
+    UserotpModule,
+    ProductModule,
+    CategoryModule
   ],
-  controllers: [AppController, UserController, AdminController, UserotpController],
-  providers: [AppService, UserService, AdminService, UserotpService],
+  controllers: [AppController, UserController, AdminController, UserotpController, ProductController, CategoryController],
+  providers: [AppService, UserService, AdminService, UserotpService, ProductService, CategoryService],
 })
 export class AppModule {
   constructor(private dataSource: DataSource) {}
