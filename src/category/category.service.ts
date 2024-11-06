@@ -13,7 +13,9 @@ export class CategoryService {
 
     find(): Promise<Category[]> {
         return this.categoryRepository.find({
-            withDelete: true
+            withDeleted: true,  // Optional: include soft-deleted categories
+            relations: ['subcategories', 'parent_id'] // Automatically fetch subcategories (children)
+
         });
     }
 
@@ -21,8 +23,13 @@ export class CategoryService {
         return 'return all users details  !';
     }
 
-    async create(user: Partial<Category>): Promise<Category> {
-        const newCategory = this.categoryRepository.create(user);
+    async create(categoryData: Partial<Category>): Promise<Category> {
+        const newCategory = this.categoryRepository.create(categoryData);
+
+        if (categoryData.parent_id) {
+            const parentCategory = await this.categoryRepository.findOneBy({ id: categoryData.parent_id });
+            newCategory.parent_id = parentCategory;
+        }
         return this.categoryRepository.save(newCategory);
     }
 
@@ -35,5 +42,11 @@ export class CategoryService {
     }
     async update(Category) {
         return this.categoryRepository.save(Category)
+    }
+
+    async detailProductForCategory(parent_id: number) {
+        // return "abc"
+        return this.categoryRepository.findBy({ parent_id });
+
     }
 }

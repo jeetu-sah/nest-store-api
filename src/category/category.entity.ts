@@ -1,19 +1,20 @@
-import { Column, 
-   CreateDateColumn, 
-   DeleteDateColumn, 
-   Entity, 
-   PrimaryGeneratedColumn 
-   } from "typeorm";
+import { Product } from "../product/product.entity";
+import {
+   Column,
+   CreateDateColumn,
+   DeleteDateColumn,
+   Entity,
+   ManyToOne,
+   OneToMany,
+   PrimaryGeneratedColumn
+} from "typeorm";
 
 
-@Entity()
+@Entity('category')
 export class Category {
 
    @PrimaryGeneratedColumn()
    id: number;
-
-   @Column()
-   categoryName: string;
 
    @Column()
    description: string;
@@ -34,6 +35,12 @@ export class Category {
    @Column({ default: true })
    isActive: boolean;
 
-   @Column()
-   parent_id: number;
+  
+
+
+   @ManyToOne(() => Category, (category) => category.subcategories,  { onDelete: 'CASCADE' })
+   parent_id: Category;
+
+   @OneToMany(() => Category, (category) => category.parent_id)
+   subcategories: Category[];
 }

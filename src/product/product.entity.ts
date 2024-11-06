@@ -1,7 +1,8 @@
 import { IsNotEmpty, IsNumber, ValidatorOptions } from "@nestjs/class-validator";
 import { ValidationError } from "@nestjs/common";
-import { Type } from "class-transformer";
-import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, DeleteDateColumn } from "typeorm";
+// import { Type } from "class-transformer";
+import { Category } from "../category/category.entity";
+import { Column, Entity, PrimaryGeneratedColumn, CreateDateColumn, DeleteDateColumn, ManyToOne } from "typeorm";
 
 
 
@@ -41,4 +42,7 @@ export class Product {
 
   @Column({ default: true })
   isActive: boolean;
+
+  // @ManyToOne(() => Category, (category) => category.parent_id)
+  //   user: Category
 }
