@@ -13,7 +13,6 @@ export class CreateUserDto {
     @IsNotEmpty({ message: 'email is required' })
     email: string;
 
-    @IsInt()
     @IsNotEmpty({ message: 'number is required' })
     mobile: number;
 
@@ -25,7 +24,6 @@ export class CreateUserDto {
     @IsNotEmpty({ message: 'maritalStatus is required' })
     maritalStatus: string;
 
-    @IsNumber()
     @IsNotEmpty({ message: 'weight is required' })
     weight: number;
 
@@ -33,12 +31,11 @@ export class CreateUserDto {
     @IsNotEmpty({ message: 'bloodGroup is required' })
     bloodGroup: string;
 
-    @IsNumber()
-    @IsNotEmpty({ message: 'productName is required' })
+    @IsNotEmpty({ message: 'Height is required' })
     height: number;
 
     @IsString()
-    @IsNotEmpty({ message: 'higestQualification is required' })
+    @IsNotEmpty({ message: 'Higest Qualification is required' })
     higestQualification: string;
 
 
