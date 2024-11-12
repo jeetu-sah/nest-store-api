@@ -31,12 +31,8 @@ export class Category {
    @DeleteDateColumn()
    deleted_at: Date;
 
-
    @Column({ default: true })
    isActive: boolean;
-
-  
-
 
    @ManyToOne(() => Category, (category) => category.subcategories,  { onDelete: 'CASCADE' })
    parent_id: Category;

@@ -21,6 +21,10 @@ import { CategoryController } from './category/category.controller';
 import { CategoryService } from './category/category.service';
 import { CategoryModule } from './category/category.module';
 import { Category } from './category/category.entity'; 
+import { LoginController } from './login/login.controller';
+import { LoginService } from './login/login.service';
+import { LoginModule } from './login/login.module';
+import { Login } from './login/login.entity'; 
 
 
 @Module({
@@ -32,15 +36,16 @@ import { Category } from './category/category.entity';
       username: 'root',
       password: '',
       database: 'nest_database',
-      entities: [User,Admin,userOtp, Product, Category],
+      entities: [User,Admin,userOtp, Product, Category,Login],
       synchronize: true,
     }),
     UserotpModule,
     ProductModule,
-    CategoryModule
+    CategoryModule,
+    LoginModule,
   ],
-  controllers: [AppController, UserController, AdminController, UserotpController, ProductController, CategoryController],
-  providers: [AppService, UserService, AdminService, UserotpService, ProductService, CategoryService],
+  controllers: [AppController, UserController, AdminController, UserotpController, ProductController, CategoryController, LoginController],
+  providers: [AppService, UserService, AdminService, UserotpService, ProductService, CategoryService, LoginService],
 })
 export class AppModule {
   constructor(private dataSource: DataSource) {}

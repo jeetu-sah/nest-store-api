@@ -64,11 +64,17 @@ export class UserController {
   ) {
     const user = await this.userService.details(id);
     if (user) {
-      user['firstName'] = request.body.first_name;
+      user['firstName'] = request.body.firstName;
       user['lastName'] = request.body.lastName;
-      user['isActive'] = request.body.status;
+      user['isActive'] = request.body.isActive;
       user['email'] = request.body.email;
       user['mobile'] = request.body.mobile;
+      user['maritalStatus'] = request.body.maritalStatus;
+      user['DOB'] = request.body.DOB;
+      user['weight'] = request.body.weight;
+      user['bloodGroup'] = request.body.bloodGroup;
+      user['height'] = request.body.height;
+      user['higestQualification'] = request.body.higestQualification;
       const updatedata = await this.userService.update(user);
       res.status(HttpStatus.OK).json({ msg: "user updated successfully...", data: updatedata });
     } else {
