@@ -3,7 +3,7 @@ import { LoginService } from './login.service';
 import { LoginController } from './login.controller';
 
 @Module({
-    providers:[LoginService],
-    controllers:[LoginController]
+    providers: [LoginService],
+    controllers: [LoginController]
 })
-export class LoginModule {}
+export class LoginModule { }

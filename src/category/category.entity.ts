@@ -10,7 +10,7 @@ import {
 } from "typeorm";
 
 
-@Entity('category')
+@Entity()
 export class Category {
 
    @PrimaryGeneratedColumn()
