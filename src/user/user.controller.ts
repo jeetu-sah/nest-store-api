@@ -74,6 +74,7 @@ export class UserController {
       user['weight'] = request.body.weight;
       user['bloodGroup'] = request.body.bloodGroup;
       user['height'] = request.body.height;
+      user['password'] = request.body.password;
       user['higestQualification'] = request.body.higestQualification;
       const updatedata = await this.userService.update(user);
       res.status(HttpStatus.OK).json({ msg: "user updated successfully...", data: updatedata });

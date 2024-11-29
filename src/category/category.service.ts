@@ -13,7 +13,8 @@ export class CategoryService {
 
     find(): Promise<Category[]> {
         return this.categoryRepository.find({
-            withDeleted: true,  // Optional: include soft-deleted categories
+
+            withDeleted: false,  // Optional: include soft-deleted categories
             relations: ['subcategories', 'parent_id'] // Automatically fetch subcategories (children)
 
         });
@@ -49,4 +50,10 @@ export class CategoryService {
         return this.categoryRepository.findBy({ parent_id });
 
     }
+     
+    // async validateCategory(categoryId: number): Promise<Category | null> {
+    //     return this.categoryRepository.findOne({
+    //       where: { id: categoryId },
+    //     });
+    //   }
 }

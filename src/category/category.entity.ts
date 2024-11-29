@@ -4,6 +4,7 @@ import {
    CreateDateColumn,
    DeleteDateColumn,
    Entity,
+   ManyToMany,
    ManyToOne,
    OneToMany,
    PrimaryGeneratedColumn
@@ -34,9 +35,12 @@ export class Category {
    @Column({ default: true })
    isActive: boolean;
 
-   @ManyToOne(() => Category, (category) => category.subcategories,  { onDelete: 'CASCADE' })
+   @ManyToOne(() => Category, (category) => category.subcategories, { onDelete: 'CASCADE' })
    parent_id: Category;
 
    @OneToMany(() => Category, (category) => category.parent_id)
    subcategories: Category[];
+
+   @ManyToMany(() => Product, (product) => product.categories)
+   products: Product[];
 }

@@ -25,7 +25,7 @@ import { LoginController } from './login/login.controller';
 import { LoginService } from './login/login.service';
 import { LoginModule } from './login/login.module';
 import { Login } from './login/login.entity'; 
-
+// import { ProductCategory } from './product/product_category.entity';
 
 @Module({
   imports: [

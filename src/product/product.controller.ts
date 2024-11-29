@@ -2,21 +2,32 @@ import { Controller, Delete, Get, HttpStatus, Param, Post, Req, Res, Patch, UseP
 import { ProductService } from './product.service'
 import { Request, Response } from 'express';
 import { CreateProductDto } from './dto/create-product-dto';
+import { CategoryService } from '../category/category.service';
 
 @Controller('product')
 export class ProductController {
-    constructor(private readonly ProductService: ProductService) { }
+    constructor(private readonly ProductService: ProductService, private readonly CategoryService: CategoryService) { }
     @Get("")
     find() {
         return this.ProductService.find();
     }
 
-    @Post("/create")
+    @Post('/create')
     @UsePipes(new ValidationPipe())
-    async create(@Body() body: CreateProductDto, @Req() request: Request, @Res() res: Response) {
-        const productCreate = await this.ProductService.create(request.body)
-        res.status(HttpStatus.OK).json({ msg: "New product created", data: productCreate });
+    async create(
+        @Body() body: CreateProductDto,
+        @Res() res: Response,
+        @Req() request:Request
+    ) {
+        try {
+            const product = await this.ProductService.create(request.body);
+            res.status(HttpStatus.CREATED).json({ msg: 'New product created', data: product });
+        } catch (error) {
+            res.status(HttpStatus.BAD_REQUEST).json({ msg: 'Error creating product', error: error.message });
+        }
     }
+    
+    
 
     @Get('/:id')
     async productDetails(@Param('id') id: number, @Res() res: Response) {
@@ -51,12 +62,46 @@ export class ProductController {
             productId['slugName'] = request.body.slugName;
             productId['description'] = request.body.description;
             productId['category'] = request.body.category;
+            productId['isActive'] = request.body.isActive;
             const updateProductData = await this.ProductService.update(productId);
             res.status(HttpStatus.OK).json({ msg: "Data updated successfully", data: updateProductData });
         } else {
             res.status(HttpStatus.OK).json({ msg: "product not exist", data: null })
         }
     }
+
+    // @Post('/assign/:id')
+    // async assignProduct(
+    //     @Param('id') productId: string,
+    //     @Body('categoryId') categoryId: number,
+    //     @Res() res: Response,
+    // ) {
+    //     const product = await this.ProductService.details(parseInt(productId, 10));
+    //     if (!product) {
+    //         return res
+    //             .status(HttpStatus.NOT_FOUND)
+    //             .json({ msg: 'Product not found', data: null });
+    //     }
+
+    //     const category = await this.CategoryService.details(categoryId);
+    //     if (!category) {
+    //         return res
+    //             .status(HttpStatus.NOT_FOUND)
+    //             .json({ msg: 'Category not found', data: null });
+    //     }
+
+    //     product.category_Id = category; // Assign the category
+    //     const updatedProduct = await this.ProductService.update(product);
+
+    //     return res
+    //         .status(HttpStatus.OK)
+    //         .json({ msg: 'Product assigned to category', data: updatedProduct });
+    // }
+
+
+
+
+
 }
 
 
