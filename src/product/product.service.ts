@@ -15,8 +15,12 @@ export class ProductService {
   }
 
   find(): Promise<Product[]> {
+    console.log("Product",this.productRepository)
     return this.productRepository.find({
       withDeleted: false,
+      relations:{
+        categories:true
+      }
     });
   }
 
@@ -25,27 +29,13 @@ export class ProductService {
   }
 
 
-//   async create(productData: Partial<Product>): Promise<Product> {
-//     const { categories, ...productDetails } = productData;
- 
-//     const newProduct = this.productRepository.create(productDetails);
- 
-//     if (categories && categories.length > 0) {
-//         const categoryEntities = await this.dataSource.getRepository(Category).findByIds(categories);
-//         newProduct.categories = categoryEntities;
-//     }
- 
-//     const savedProduct = await this.productRepository.save(newProduct);
- 
-//     return this.productRepository.findOne({
-//         where: { id: savedProduct.id },
-//         relations: ['categories'],  
-//     });
-// }
 
 async create(dto:CreateProductDto){
   const product= this.productRepository.create(dto);
   product.categories= dto.categories.map(id=>({... new Category(),id}))
+
+  return await this.productRepository.save(product)
+
 }
 
 
@@ -61,7 +51,9 @@ async create(dto:CreateProductDto){
   }
 
   async details(id: number): Promise<Product | null> {
-    return this.productRepository.findOne({ where: { id } });
+    return this.productRepository.findOne({ where: { id }, relations:{
+      categories:true
+    } });
   }
 
   async update(product: Partial<Product>): Promise<Product> {

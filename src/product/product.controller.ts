@@ -61,7 +61,7 @@ export class ProductController {
             productId['discountPrice'] = request.body.discountPrice;
             productId['slugName'] = request.body.slugName;
             productId['description'] = request.body.description;
-            productId['category'] = request.body.category;
+            productId['categories'] = request.body.categories;
             productId['isActive'] = request.body.isActive;
             const updateProductData = await this.ProductService.update(productId);
             res.status(HttpStatus.OK).json({ msg: "Data updated successfully", data: updateProductData });
@@ -70,33 +70,7 @@ export class ProductController {
         }
     }
 
-    // @Post('/assign/:id')
-    // async assignProduct(
-    //     @Param('id') productId: string,
-    //     @Body('categoryId') categoryId: number,
-    //     @Res() res: Response,
-    // ) {
-    //     const product = await this.ProductService.details(parseInt(productId, 10));
-    //     if (!product) {
-    //         return res
-    //             .status(HttpStatus.NOT_FOUND)
-    //             .json({ msg: 'Product not found', data: null });
-    //     }
-
-    //     const category = await this.CategoryService.details(categoryId);
-    //     if (!category) {
-    //         return res
-    //             .status(HttpStatus.NOT_FOUND)
-    //             .json({ msg: 'Category not found', data: null });
-    //     }
-
-    //     product.category_Id = category; // Assign the category
-    //     const updatedProduct = await this.ProductService.update(product);
-
-    //     return res
-    //         .status(HttpStatus.OK)
-    //         .json({ msg: 'Product assigned to category', data: updatedProduct });
-    // }
+   
 
 
 
