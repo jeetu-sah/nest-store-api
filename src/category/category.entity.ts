@@ -4,13 +4,14 @@ import {
    CreateDateColumn,
    DeleteDateColumn,
    Entity,
+   ManyToMany,
    ManyToOne,
    OneToMany,
    PrimaryGeneratedColumn
 } from "typeorm";
 
 
-@Entity('category')
+@Entity()
 export class Category {
 
    @PrimaryGeneratedColumn()
@@ -31,16 +32,15 @@ export class Category {
    @DeleteDateColumn()
    deleted_at: Date;
 
-
    @Column({ default: true })
    isActive: boolean;
 
-  
-
-
-   @ManyToOne(() => Category, (category) => category.subcategories,  { onDelete: 'CASCADE' })
+   @ManyToOne(() => Category, (category) => category.subcategories, { onDelete: 'CASCADE' })
    parent_id: Category;
 
    @OneToMany(() => Category, (category) => category.parent_id)
    subcategories: Category[];
+
+   @ManyToMany(() => Product, (product) => product.categories)
+   products: Product[];
 }

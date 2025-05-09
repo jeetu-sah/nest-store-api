@@ -16,25 +16,24 @@ export class CreateUserDto {
     @IsNotEmpty({ message: 'number is required' })
     mobile: number;
 
-    @IsString()
     @IsNotEmpty({ message: 'password is required' })
     password: string;
 
-    @IsString()
+    
     @IsNotEmpty({ message: 'maritalStatus is required' })
     maritalStatus: string;
 
     @IsNotEmpty({ message: 'weight is required' })
     weight: number;
 
-    @IsString()
+    
     @IsNotEmpty({ message: 'bloodGroup is required' })
     bloodGroup: string;
 
     @IsNotEmpty({ message: 'Height is required' })
     height: number;
 
-    @IsString()
+    
     @IsNotEmpty({ message: 'Higest Qualification is required' })
     higestQualification: string;
 

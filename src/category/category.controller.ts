@@ -32,7 +32,7 @@ export class CategoryController {
     }
 
     @Delete('/:id')
-    async deleteoCategry(@Param('id') id: number, @Res() res: Response) {
+    async deleteCategory(@Param('id') id: number, @Res() res: Response) {
         const detailsCategory = await this.CategoryService.details(id);
         if (detailsCategory) {
             const deleteResponse = await this.CategoryService.delete(id);
@@ -52,6 +52,7 @@ export class CategoryController {
             categoryId['description'] = request.body.description;
             categoryId['slugname'] = request.body.slugname;
             categoryId['parent_id'] = request.body.parent_id;
+            categoryId['isActive'] = request.body.isActive;
             const updateCategoryData = await this.CategoryService.update(categoryId);
             res.status(HttpStatus.OK).json({ msg: "Data updated successfully", data: updateCategoryData });
         } else {
